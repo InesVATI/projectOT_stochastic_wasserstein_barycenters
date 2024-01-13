@@ -1,9 +1,9 @@
 \section{Introduction}
 
-Introduction (~3 pages) : 
-Presentation of the problem(s). 
-Previous works (at least a few citations). If relevant, include things that you have seen during the MVA course (or possibly other courses). 
-Contributions. Why is the studied method different/better/worse/etc. than existing previous works. \\ 
+% Introduction (~3 pages) : 
+% Presentation of the problem(s). 
+% Previous works (at least a few citations). If relevant, include things that you have seen during the MVA course (or possibly other courses). 
+% Contributions. Why is the studied method different/better/worse/etc. than existing previous works. \\ 
 
 Addressing the computation of barycenters for probability distributions  stands as a fundamental problem in statistics and machine learning. It becomes compelling to summarize a collection of probability distributions with due consideration to the inherent geometric structure. 
 
@@ -38,7 +38,6 @@ In this setting, the optimization problem reads
      \umin{\forall\ i \leq M,\; x_i \in \mathcal{X}} \frac{1}{J}\sum_{j=1}^{J} W_2^2(\hat{\nu}, \mu_j)
 \end{equation}
 
-\textbf{Contributions.} The main contribution of the research conducted in \cite{claici_stochastic_2018} lies in the introduction of a stochastic approach for computing Wasserstein barycenters, thereby eliminating the need for a fixed grid implementation. Notably, the support of the estimated barycenter is optimized and empirically demonstrated to be contained within the support of the true barycenter.  In a departure from conventional approaches, their problem formulation eschews regularization. The authors also provide a theoretical analysis elucidating the algorithm's convergence dynamics. 
-
+\textbf{Contributions.} The main contribution of the research conducted in \cite{claici_stochastic_2018} lies in the introduction of a stochastic approach for computing Wasserstein barycenters, thereby eliminating the need for a fixed grid implementation. Notably, the support of the estimated barycenter is optimized and empirically demonstrated to be contained within the support of the true barycenter.  In a departure from conventional approaches, their problem formulation eschews regularization. The authors also provide a theoretical analysis elucidating the algorithm's convergence dynamics. \\ 
 
 In this report, we delve into the method proposed by \cite{claici_stochastic_2018}, applying it to both simple 1D and 2D cases. Additionally, we conduct a comparative analysis, evaluating the performance of this approach against existing methods in terms of both quality and computational speed. \footnote{Code is available at \url{https://github.com/InesVATI/projectOT_stochastic_wasserstein_barycenters}}. 
