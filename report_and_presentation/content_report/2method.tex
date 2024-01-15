@@ -1,5 +1,5 @@
 \section{Presentation of the method}
-
+\label{sec:method}
 
 The proposed algorithm \cite{claici_stochastic_2018} boils down to two key steps :
 \begin{enumerate}
@@ -15,7 +15,7 @@ To get the gradient, we need to compute the quantities
 
 \begin{align*}
     a^i_j &= \int_{V_{\phi_j}^i} d\mu_j(y) & b_j^i &= \int_{V_{\phi_j}^i} y\, d\mu_j(y) \\
-     &= \E_{y \sim \mu_j}\left[ \mathbf{1}_{y\in V_{\phi_j}^i}\right] & & =\E_{y \sim \mu_j}\left[ y . \ones_{y\in V_{\phi_j^i}}\right] \\
+     &= \E_{y \sim \mu_j}\left[ \ones_{y\in V_{\phi_j}^i}\right] & & =\E_{y \sim \mu_j}\left[ y . \ones_{y\in V_{\phi_j^i}}\right] \\
 \end{align*}
 
 where $\ones$ indicates the indicator function of a set. In the derivative of \eqref{eq:obj}, the \textit{power cell} $V_{\phi_j}^i$ of point $x_i$ comes into play and is defined as follows \blue{link with voronoi cell !!!}
@@ -47,7 +47,7 @@ at iteration $l$, where $\lambda$ is the step size. To improve performance, the 
     \begin{algorithmic}[1]
         \FOR {$j = 1, \dots, J$}
         \STATE $z^{(0)} \gets 0$
-        \WHILE {$\norm{\frac{\widehat{\partial F}}{\partial \phi_j}} > \epsilon $}
+        \WHILE {$\norm{\frac{\widehat{\partial F}}{\partial \phi_j}} > \epsilon_{ascent} $}
         \STATE Compute $\hat{a}_j^i$ thanks to algorithm \ref{montecarlo}
         \STATE $z^{l+1} \gets \beta z^{(l)} + \widehat{\partial_{\phi_j}F}(\phi_j)$ \COMMENT{Nesterov acceleration}
         \STATE $\phi_j^{(l+1)} \gets \phi_j^{(l)} + \alpha z^{(l+1)}$
@@ -64,16 +64,17 @@ $$
 \frac{\partial F}{\partial x_i} = 0 \implies x_i = \frac{\sum_{j=1}^J b_j^i }{\sum_{j=1}^{J}a_j^i}
 $$
 This step boils down to a simple fixed point iteration and is denoted as the \textit{snap step}.
-The algorithm ref{?} summarize the whole procedure. 
+The algorithm \ref{ascent_snap} summarize the whole procedure. 
 
 \begin{algorithm}
-    \caption{Ascent and Snap algorithm for commputing Stochastic Wasserstein Barycenters}\label{ascent_snap}
+    \caption{Ascent and Snap algorithm for computing Stochastic Wasserstein Barycenters}
+    \label{ascent_snap}
     \begin{algorithmic}[1]
         \FOR {$t = 1, \dots, T$}
             \STATE Update $\lbrace \phi_j \rbrace$ with algorithm \ref{ascent} \COMMENT{Ascent step}
-            \STATE Compute $\hat{b}_j^i$ with algorithm \ref{montecarlo} \COMMENT{Snap step}
+            \STATE Compute $\hat{b}_j^i$ with algorithm \ref{montecarlo} 
             \FOR {$x_i \in \Sigma$}  
-                \STATE $x_i \gets \frac{\sum_{j=1}^J \hat{b}_j^i }{\sum_{j=1}^{J}\hat{a}_j^i}$
+                \STATE $x_i \gets \frac{\sum_{j=1}^J \hat{b}_j^i }{\sum_{j=1}^{J}\hat{a}_j^i}$ \COMMENT{Snap step}
             \ENDFOR
         \ENDFOR
         \RETURN Opitimized barycenter support $\Sigma^* = \lbrace x_i \rbrace_{i=1}^M$
