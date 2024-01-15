@@ -7,24 +7,35 @@
 \usepackage{amsfonts}
 
 %---------------------
+%   ALGORITHMS
+%---------------------
+\usepackage{algorithm}
+\usepackage{algorithmic}
+%---------------------
 %    FIGURES
 %---------------------
 \usepackage{subcaption}
 \usepackage{wrapfig} %wrapfigure
 % \usepackage{graphicx}
 % \graphicspath{ {./figures/} }
+
 %---------------------
 %   COLORS
 %---------------------
 \usepackage{xcolor}
 
 \newcommand{\red}[1]{\textcolor{red}{#1}}
-
+\newcommand{\blue}[1]{\textcolor{blue}{#1}}
 %%%%
 \newcommand{\ens}[2]{\lbrace #1, #2 \rbrace}
-\newcommand{\norm}[1]{\|#1\|}
+\newcommand{\abs}[1]{\|#1\|}
+\newcommand{\norm}[1]{\left\lVert#1\right\rVert}
 
 \newcommand{\RR}{\mathbb{R}}
+\newcommand{\E}{\mathbf{E}} % expetation
+\newcommand{\ones}{\mathbb{1}} % indicator or vector of ones
+
+\newcommand{\uinf}[1]{\underset{#1}{\inf}\;}
 \newcommand{\umin}[1]{\underset{#1}{\min}\;}
 \newcommand{\umax}[1]{\underset{#1}{\max}\;}
 \newcommand{\uargmin}[1]{\underset{#1}{argmin}\;}

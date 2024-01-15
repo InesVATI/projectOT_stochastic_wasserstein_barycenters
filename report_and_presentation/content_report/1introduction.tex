@@ -7,16 +7,16 @@
 
 Addressing the computation of barycenters for probability distributions  stands as a fundamental problem in statistics and machine learning. It becomes compelling to summarize a collection of probability distributions with due consideration to the inherent geometric structure. 
 
-The theory of optimal transport provides a promising and theoretically-grounded avenue for averaging distributions over a geometric domain. The Wasserstein barycenter is a generalization of the notion of mean to probability measures. It is defined as the minimizer of the sum of the Wasserstein distances to the input measures. The Wasserstein distance itself serves as a metric on the space of probability measures that takes into account the underlying geometry of the space. It is defined as the minimum cost of transporting one measure onto the other. 
+The theory of optimal transport (OT) provides a promising and theoretically-grounded avenue for averaging distributions over a geometric domain. The Wasserstein barycenter is a generalization of the notion of mean to probability measures. It is defined as the minimizer of the sum of the Wasserstein distances to the input measures. The Wasserstein distance itself serves as a metric on the space of probability measures that takes into account the underlying geometry of the space. It is defined as the minimum cost of transporting one measure onto the other. 
 
 The computation of barycenters finds diverse applications across various fields, including statistics, computer vision \cite{bruckstein_wasserstein_2012, korotin_wasserstein_nodate}, signal analysis \cite{cheng_dynamical_2021,cheng_nonparametric_2023}, and medical imaging \cite{dvurechenskii_decentralize_2018}. 
-For instance, Bruckstein et al. \cite{bruckstein_wasserstein_2012} propose a new approach to compute the averaging of discrete probability distributions as a barycenter over the Wasserstein space and apply their method to texture synthesis and texture mixing. Texture mixing problem consists in synthesizing a new texture from a collection of atoms, \textit{ie} examplars. In \cite{cheng_dynamical_2021}, the authors leverage these tools in time series modeling. Each segment in time series data can represent a state, such that running or walking in a human activity application. They propose an innovative Dynamical Wasserstein Barycenter model to estimate the distribution of pure states while improving state estimation for transition periods. \\
+For instance, Bruckstein et al. \cite{bruckstein_wasserstein_2012} propose a new approach to compute the averaging of discrete probability distributions as a barycenter over the Wasserstein space and apply their method to texture synthesis and texture mixing. Texture mixing problem consists in synthesizing a new texture from a collection of atoms, i.e. examplars. In \cite{cheng_dynamical_2021}, the authors leverage these tools in time series modeling. Each segment in time series data can represent a state, such that running or walking in a human activity application. They propose an innovative Dynamical Wasserstein Barycenter model to estimate the distribution of pure states while improving state estimation for transition periods. \\
 
 \textbf{Related works.}  Several works have addressed the computation of Wasserstein barycenter. Cuturi et al. \cite{cuturi_sinkhorn_2013} presented a concise and efficient Sinkhorn algorithm, subsequently extended to barycenter problems through, for instance, iterative Bregman projection algorithms \cite{benamou_iterative_2014}. These algorithms introduce entropic regularization to the initial linear problem, demonstrating that the set of linear constraints can be split in an intersection of simpler constraints, allowing for closed-form projections.
 
 Staib et al. \cite{staib_parallel_2017} introduced a stochastic barycenter algorithm from samples, presenting a scalable and parallelized approach suitable for streaming data—continuously generated data from diverse sources. Their method is also robust to nonstationary input distributions. However, their method requires a finite, predetermined set of support points. 
 
-Several works have aimed at enhancing algorithmic speed. Dvurechenskii et al. \cite{dvurechenskii_decentralize_2018} proposed a distributed algorithm for computing a discrete approximation of the regularized Wasserstein barycenter for a set of continuous probability distributions stored across a network, \textit{ie} each agent constituing the network holds a private continuous probability measure. Grounded in an accelerated primal-dual stochastic gradient method for convex optimization with linear equality constraints, their approach seeks to expedite computation in a decentralized fashion.
+Several works have aimed at enhancing algorithmic speed. Dvurechenskii et al. \cite{dvurechenskii_decentralize_2018} proposed a distributed algorithm for computing a discrete approximation of the regularized Wasserstein barycenter for a set of continuous probability distributions stored across a network, i.e. each agent constituing the network holds a private continuous probability measure. Grounded in an accelerated primal-dual stochastic gradient method for convex optimization with linear equality constraints, their approach seeks to expedite computation in a decentralized fashion.
 
 Current state-of-the-art techniques typically define the barycenter on a fixed, refined grid and optimize the weights associated with each grid point. In this article \cite{claici_stochastic_2018}, the optimization is extended to include the grid itself, and uniform weights are assigned to each grid point. \\ 
 
@@ -24,20 +24,35 @@ Current state-of-the-art techniques typically define the barycenter on a fixed, 
 $$ \umin{\nu}\frac{1}{N}\sum_{j=1}^{J} W_2^2(\nu, \mu_j) $$
 The squared 2-Wasserstein distance between two probability measures $\nu$ and $\mu$ is defined as
 \begin{equation}\label{eq:W2}
-     W_2^2(\nu, \mu) = \umin{\pi \in \mathcal{U}(\nu, \mu)} \int_{\mathcal{X}\times\mathcal{X}} d(x, y)^2 d\pi(x, y)
+     W_2^2(\nu, \mu) = \umin{\pi \in \textbf{U}(\nu, \mu)} \int_{\mathcal{X}\times\mathcal{X}} d(x, y)^2 d\pi(x, y)
 \end{equation}
-where $\mathcal{U}(\nu, \mu)$ is the set of all coupling $\pi$ between $\nu$ and $\mu$
+where $\textbf{U}(\nu, \mu)$ is the set of all coupling $\pi$ between $\nu$ and $\mu$
 
-$$ \mathcal{U}(\nu, \mu) = \ens{ \pi \in \mathcal{M}_+^1(\mathcal{X}\times\mathcal{Y})}{ (P_\mathcal{X})_\# \pi = \nu\; \textrm{and}\; (P_\mathcal{Y} )_\# \pi = \mu } $$
+$$ \textbf{U}(\nu, \mu) = \ens{ \pi \in \mathcal{M}_+^1(\mathcal{X}\times\mathcal{Y})}{ (P_\mathcal{X})_\# \pi = \nu\; \textrm{and}\; (P_\mathcal{Y} )_\# \pi = \mu } $$
 $(P_\mathcal{X} )_\#$ and $(P_\mathcal{Y} )_\#$ are the push-forward by the projectors $P_\mathcal{X}$ and $P_\mathcal{Y}$ on the first and second marginals respectively. \\
 
-They opt to a semidiscrete approximation of the barycenter. Let $\Sigma = \lbrace x_i \rbrace_{i=1}^M$ be a set of $M$ points in $\mathcal{X}$. The barycenter $\nu$ is approximated by a discrete measure $\hat{\nu}$ with uniform weights on the points of $\Sigma\subset \mathcal{X}$, \textit{ie}
+They opt to a semidiscrete approximation of the barycenter. Let $\Sigma = \lbrace x_i \rbrace_{i=1}^M$ be a set of $M$ points in $\mathcal{X}$. The barycenter $\nu$ is approximated by a discrete measure $\hat{\nu}$ with uniform weights on the points of $\Sigma\subset \mathcal{X}$, i.e.
 $$ \hat{\nu} = \frac{1}{M} \sum_{i=1}^M \delta_{x_i} $$ 
 In this setting, the optimization problem reads 
 \begin{equation}\label{eq:pbl}
      \umin{\forall\ i \leq M,\; x_i \in \mathcal{X}} \frac{1}{J}\sum_{j=1}^{J} W_2^2(\hat{\nu}, \mu_j)
 \end{equation}
 
+The dual problem of each sub problem of \eqref{eq:pbl} reads 
+\begin{align*}
+ \umax{\phi_j \in L^1(\mathcal{X})} F_{dual}\left(\phi_j, \lbrace x_i \rbrace_{i=1}^M\right) &= \int_{\mathcal{X}} \phi_j(x)d\nu(x) + \int_{\mathcal{X}} \overline{\phi}_j(y) d\mu_j(y) \\
+ &= \frac{1}{M}\sum_{i=1}^{M} \phi_j(x_i) + \int_{\mathcal{X}} \overline{\phi}_j(y) d\mu_j(y) \\
+\end{align*}
+
+where $\phi_j\in\RR^{M}$ is the discrete Kantorovith potential associated with the OT problem \eqref{eq:W2} and $\overline{\phi}_j$ is the c-transform of $\phi_j$ defined by
+$ \overline{\phi}(y) = \uinf{x \in \mathcal{X}} d(x, y) - \phi(x)$ \cite{peyre_computational_2020}. 
+
+Therefore, the objective function optimize in this work \cite{claici_stochastic_2018} is 
+\begin{equation}\label{eq:obj}
+     F\left(\lbrace \phi_j\rbrace_{j=1}^J, \lbrace x_i \rbrace_{i=1}^M \right) = \frac{1}{J} \sum_{j=1}^{J} F_{dual}\left(\phi_j, \lbrace x_i \rbrace_{i=1}^M \right)
+\end{equation}
+
+
 \textbf{Contributions.} The main contribution of the research conducted in \cite{claici_stochastic_2018} lies in the introduction of a stochastic approach for computing Wasserstein barycenters, thereby eliminating the need for a fixed grid implementation. Notably, the support of the estimated barycenter is optimized and empirically demonstrated to be contained within the support of the true barycenter.  In a departure from conventional approaches, their problem formulation eschews regularization. The authors also provide a theoretical analysis elucidating the algorithm's convergence dynamics. \\ 
 
-In this report, we delve into the method proposed by \cite{claici_stochastic_2018}, applying it to both simple 1D and 2D cases. Additionally, we conduct a comparative analysis, evaluating the performance of this approach against existing methods in terms of both quality and computational speed. \footnote{Code is available at \url{https://github.com/InesVATI/projectOT_stochastic_wasserstein_barycenters}}. 
+In this report, we delve into the method proposed by \cite{claici_stochastic_2018}, applying it to both simple 1D and 2D cases. Additionally, we conduct a comparative analysis, evaluating the performance of this approach against existing methods in terms of both quality and computational speed\footnote{Code is available at \url{https://github.com/InesVATI/projectOT_stochastic_wasserstein_barycenters}}. 

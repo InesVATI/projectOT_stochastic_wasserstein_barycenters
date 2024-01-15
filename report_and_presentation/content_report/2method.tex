@@ -1,0 +1,81 @@
+\section{Presentation of the method}
+
+
+The proposed algorithm \cite{claici_stochastic_2018} boils down to two key steps :
+\begin{enumerate}
+    \item \label{step1} \textbf{Stochastic Gradient Ascent for Potentials:} With $\lbrace x_i \rbrace$ fixed, a stochastic gradient ascent is employed to optimize the potentials $\lbrace \phi_j^i \rbrace$, leveraging the concavity of F \eqref{eq:obj} in $\phi_j$.
+    \item \textbf{Fixed-Point Iteration for Positions:} With $\lbrace \phi_j^i \rbrace$ fixed, a single fixed point iteration is performed to update the barycenter grid $\lbrace x_i \rbrace$. This update is facilitated by a closed-form expression for the zeroed values of the gradient, i.e., $$\frac{\partial F}{\partial x_i} = 0$$
+\end{enumerate}
+
+\subsection{Stochastic Gradient Ascent for Potentials}
+
+For step \ref{step1}, we note that $F$ is concave in the potentials $\phi_j$. Indeed, we have shown in the course \cite{peyre_computational_2020} that the $c$-transform is concave for the euclidean cost $d(x, y)^2 = \norm{x - y}_2^2$. 
+To get the gradient, we need to compute the quantities 
+
+
+\begin{align*}
+    a^i_j &= \int_{V_{\phi_j}^i} d\mu_j(y) & b_j^i &= \int_{V_{\phi_j}^i} y\, d\mu_j(y) \\
+     &= \E_{y \sim \mu_j}\left[ \mathbf{1}_{y\in V_{\phi_j}^i}\right] & & =\E_{y \sim \mu_j}\left[ y . \ones_{y\in V_{\phi_j^i}}\right] \\
+\end{align*}
+
+where $\ones$ indicates the indicator function of a set. In the derivative of \eqref{eq:obj}, the \textit{power cell} $V_{\phi_j}^i$ of point $x_i$ comes into play and is defined as follows \blue{link with voronoi cell !!!}
+$$
+V_{\phi}^i = \ens{x\in\mathcal{X}}{d(x, x_i)^2 - \phi_i \leq d(x, x_{i'})^2 - \phi_{i'}, \forall i' }
+$$
+
+The computation of $b_j^i$ is given in the algorithm \ref{montecarlo}, the computation of $a_j^i$ is similar. 
+
+\begin{algorithm}[H]
+    \caption{Estimate $a_j^i$ and $b_j^i$ by Monte Carlo approximation}\label{montecarlo}
+    \begin{algorithmic}[1] % enable line numbers
+        \REQUIRE iid samples $\lbrace Y\rbrace_{k=1}^K \sim \mu_j$ 
+        \FOR {$y$ in $Y$} 
+            \IF {$y\in V_{\phi_j}^i$ }
+                \STATE $b_j^i \gets b_j^i + y$
+            \ENDIF 
+        \ENDFOR
+        \STATE $b_j \gets \frac{1}{K} b_j$
+        \RETURN $b_j^i$
+    \end{algorithmic}
+\end{algorithm}
+
+The well known gradient ascent step is given by $$ \phi_j^{(l+1)} = \phi_j^{(l)} + \alpha \frac{\partial F}{\partial \phi_j}(\phi_j^{(l)}) $$
+at iteration $l$, where $\lambda$ is the step size. To improve performance, the authors apply the Nesterov acceleration. The \textit{ascent step} is given in algorithm \ref{ascent}.
+
+\begin{algorithm}[H]
+    \caption{Ascent step}\label{ascent}
+    \begin{algorithmic}[1]
+        \FOR {$j = 1, \dots, J$}
+        \STATE $z^{(0)} \gets 0$
+        \WHILE {$\norm{\frac{\widehat{\partial F}}{\partial \phi_j}} > \epsilon $}
+        \STATE Compute $\hat{a}_j^i$ thanks to algorithm \ref{montecarlo}
+        \STATE $z^{l+1} \gets \beta z^{(l)} + \widehat{\partial_{\phi_j}F}(\phi_j)$ \COMMENT{Nesterov acceleration}
+        \STATE $\phi_j^{(l+1)} \gets \phi_j^{(l)} + \alpha z^{(l+1)}$
+        \ENDWHILE
+        \ENDFOR
+    \end{algorithmic}
+\end{algorithm}
+In algorithm \ref{ascent}, $\widehat{\partial_{\phi_j}F}$ denote the stochastic approximation of the gradient of $F$ with respect to $\phi_j$. 
+
+\subsection{Fixed Point Iteration for Positions}
+
+The update of the point $\lbrace x_i \rbrace$ is given by 
+$$
+\frac{\partial F}{\partial x_i} = 0 \implies x_i = \frac{\sum_{j=1}^J b_j^i }{\sum_{j=1}^{J}a_j^i}
+$$
+This step boils down to a simple fixed point iteration and is denoted as the \textit{snap step}.
+The algorithm ref{?} summarize the whole procedure. 
+
+\begin{algorithm}
+    \caption{Ascent and Snap algorithm for commputing Stochastic Wasserstein Barycenters}\label{ascent_snap}
+    \begin{algorithmic}[1]
+        \FOR {$t = 1, \dots, T$}
+            \STATE Update $\lbrace \phi_j \rbrace$ with algorithm \ref{ascent} \COMMENT{Ascent step}
+            \STATE Compute $\hat{b}_j^i$ with algorithm \ref{montecarlo} \COMMENT{Snap step}
+            \FOR {$x_i \in \Sigma$}  
+                \STATE $x_i \gets \frac{\sum_{j=1}^J \hat{b}_j^i }{\sum_{j=1}^{J}\hat{a}_j^i}$
+            \ENDFOR
+        \ENDFOR
+        \RETURN Opitimized barycenter support $\Sigma^* = \lbrace x_i \rbrace_{i=1}^M$
+    \end{algorithmic}
+\end{algorithm}
