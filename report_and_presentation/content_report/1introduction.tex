@@ -21,7 +21,9 @@ Several works have aimed at enhancing algorithmic speed. Dvurechenskii et al. \c
 Current state-of-the-art techniques typically define the barycenter on a fixed, refined grid and optimize the weights associated with each grid point. In this studied article \cite{claici_stochastic_2018}, the optimization is extended to include the grid itself, and uniform weights are assigned to each grid point. \\ 
 
 \textbf{Problem statement.} We consider of collection of $J$ distributions $\lbrace \mu_j \rbrace_{j=1}^J$, either discrete or continuous, defined on a common domain $\mathcal{X} \subset \mathbb{R}^d$. The barycenter $\nu$ of these distributions is defined as the solution of the following optimization problem 
-$$ \umin{\nu}\frac{1}{J}\sum_{j=1}^{J} W_2^2(\nu, \mu_j) $$
+\begin{equation}\label{eq:primal}
+      \umin{\nu}\frac{1}{J}\sum_{j=1}^{J} W_2^2(\nu, \mu_j)
+\end{equation}
 The squared 2-Wasserstein distance between two probability measures $\nu$ and $\mu$ is defined as
 \begin{equation}\label{eq:W2}
      W_2^2(\mu, \nu) = \umin{\pi \in \textbf{U}(\mu, \nu)} \int_{\mathcal{X}\times\mathcal{X}} d(x, y)^2 d\pi(x, y)

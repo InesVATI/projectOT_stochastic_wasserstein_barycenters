@@ -1,4 +1,5 @@
 \documentclass[a4paper, 11pt]{article}
+
 \usepackage{content_report/theme}
 \usepackage{content_report/shortcuts}
 \addbibresource{biblio.bib}
@@ -11,14 +12,19 @@
 
 \begin{center}
     \textbf{Abstract} \\
-     
-Abstract (½ page): 
-What problem(s) is studied? 
-Why is it relevant? 
-What solution(s) is proposed? 
-Which contributions (theory, numerics, etc) ? 
 \end{center}
-\newpage
+% Abstract (½ page): 
+% What problem(s) is studied? 
+% Why is it relevant? 
+% What solution(s) is proposed? 
+% Which contributions (theory, numerics, etc) ? \\ 
+
+In this report, we studied the article \cite{claici_stochastic_2018} entitled "Stochastic Wasserstein Barycenters" published in 2018. Claici et al. proposed an innovative approach to compute the barycenter of a set of discrete or continuous probability measures under the Wasserstein metric from optimal transport theory in which the support of the barycenter is adjusted in each iteration. Their algorithm is straightforward parallelizable, easy to implement and is not restricted to input distributions supported on a fixed set of points. 
+
+
+We applied their method to both simple 1D and 2D cases. Additionally, we conduct a comparative analysis, evaluating the performance of this approach against existing methods in terms of both quality and computational speed. The code is available at \url{https://github.com/InesVATI/projectOT_stochastic_wasserstein_barycenters}. 
+
+
 
 \input{content_report/1introduction.tex}
 \input{content_report/2method.tex}
@@ -29,6 +35,7 @@ Which contributions (theory, numerics, etc) ?
 
 \input{content_report/5ccl_perspectives.tex}
 \input{content_report/6course_connection.tex}
+\input{content_report/5ccl_perspectives.tex}
 
 \printbibliography
 

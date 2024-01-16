@@ -1,7 +1,8 @@
 \section{Conclusion and Perspectives}
 
-Conclusion and perspective (~1 page)
-Summary of the result obtained: pros and cons (limitation, problems, error in the articles, etc)
-Possible improvement/extension
+We have applied the proposed method on both 1-D and 2-D cases. Even though the algorithm takes a lot of time to run, the results remains promising. This method is slower but more robust and versatile than the other methods tested. 
+We also have shown that the support of the barycenter is not necessarily include in the support of the true barycenter as shown the comparaison between the McCann's interpolant (Fig. \ref{fig:mccann_1D_2skew}) and the barycenter computed with the proposed method (Fig \ref{fig:ascent_snap_1D_2skewnorm}) in the 1-D case. A possible improvement of our result could be a better choice of the initialization of the positions $x_i$. \\ 
 
-Log-domain Sinkhorn 
+For computation time sake, we have computed the barycenter between two input distributions but it would be interesting to compare the results with three or more input measures. This extension would allow us to assess the robustness and scalability of the proposed method across a broader range of input scenarios. 
+
+Futhermore, comparing the proposed method with the log-domain Sinkhorn algorithm would also be interesting. The log-domain Sinkhorn algorithm is known to be more stable than the Sinkhorn algorithm for low regularization parameters but also slower.
