@@ -1,15 +1,57 @@
+\begin{frame}{Experiment 1}
+\end{frame}
 
-% \begin{frame}{Computation time}
-%     \begin{table}
-%         \begin{center}
-%             \begin{tabular}{b{2cm} b{2cm} b{2cm} b{2cm} b{3cm}}
-%                     Experiment & Optimal Monge Map & Iterative Bregman & OT free support & Ascent Snap algorithm \\
-%                     \hline\hline
-%                     1D  & $0.02 \pm 0.01$ & $0.22 \pm 0.02$ & $0.74 \pm 0.28$ & $7814.27 \pm 539.37$ \\
-%                     2D discrete & - & $2.18 \pm 0.34$ & $0.38 \pm 0.30$ & $16351.66 \pm 0.23$ \\
-%             \end{tabular}
-%         \end{center}
-%         \caption{Computation time (in seconds) for the different methods}
-%         \label{table:time_table}
-%     \end{table}
-% \end{frame}
+\begin{frame}{Experiment 2}
+    
+\end{frame}
+
+\begin{frame}{Computation time}
+    \begin{table}
+        \begin{center}
+            \begin{tabularx}{\textwidth}{>{\raggedright}m{2cm} c m{2cm} X X}
+                    Experiment & McCann & Iterative Bregman & POT free support & Ascent Snap \\
+                    \hline\hline
+                    1D skewnorm & $0.02 \pm 0.01$ & $0.22 \pm 0.02$ & $0.74 \pm 0.28$ & $7814.27 \pm 0.37$ \\
+                    2D discrete & - & $2.18 \pm 0.34$ & $0.38 \pm 0.30$ & $16351.66 \pm 0.23$ \\
+            \end{tabularx}
+        \end{center}
+        \caption{Computation time (in seconds) for the different methods}
+    \end{table}
+\end{frame}
+
+\begin{frame}{Ascent step convergence}
+    \begin{figure}
+    \begin{columns}
+        \begin{column}{.5\textwidth}
+            \begin{subfigure}{\textwidth}
+            \centering
+            \includegraphics[width=\textwidth]{figures/ascent_criteria_msamples16000_iter0_1D_2skewnorm.png}
+            \caption{Two 1D continuous distributions}
+            \end{subfigure}
+        \end{column}
+        \begin{column}{.5\textwidth}
+            \begin{subfigure}{\textwidth}
+                \centering
+                \includegraphics[width=\textwidth]{figures/ascent_criteria_msamples16000_iter0_2D_discrete.png}
+                \caption{Two 2D discrete distributions }
+            \end{subfigure}
+        \end{column}
+    \end{columns}
+    \caption{\centering Evolution of $\norm{ \frac{\partial F}{\partial \phi_j} }$ during the ascent step for each experiment. In the x-axis, is the number of interations of the while loop.}
+    \end{figure}
+\end{frame}
+
+\begin{frame}{Ascent step time}
+    \begin{table}
+        \begin{center}
+                \begin{tabular}{lrr}
+                        Experiment & Ascent step & Snap step \\
+                        \hline\hline
+                        1D skewnorm & $8309.44 \pm 0.33$ & $5.28 \pm 0.23$ \\
+                        2D discrete & $11938.70 \pm 0.34$ & $9.81 \pm 0.34$ \\
+                \end{tabular}
+        \end{center}
+        \caption{Computation time (in seconds) for each step of the Algorithm \ref{ascent_snap}. The experiences are repeated $3$ times.}
+        \label{table:time_algo_table}
+    \end{table}
+\end{frame}

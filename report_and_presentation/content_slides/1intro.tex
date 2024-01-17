@@ -1,0 +1,23 @@
+\begin{frame}{Problem statement}
+    \textit{Article :} \cite{claici_stochastic_2018}, \textit{Stochastic Wasserstein Barycenters}
+    \begin{itemize}
+        \item Compute the Wasserstein barycenter $\nu$ of a set of any probability measures $\lbrace \mu_j \rbrace_{j=1}^J$  defined of a metric space $(\mathcal{X}, d)$ with $\mathcal{X} \subset \mathcal{R}^D$
+        \item Primal problem 
+        \begin{equation}\label{eq:primal}
+        \umin{\nu} \frac{1}{J}\sum_{j=1}^{J} W_2^2(\mu_j, \nu)
+        \end{equation}
+        \pause
+        \item Approximation of the barycenter 
+        $$ \hat{\nu} = \frac{1}{M} \sum_{i=1}^{M} \delta_{x_i} $$
+        with optimized support $\Sigma = \lbrace x_i \rbrace_{i=1}^M$ 
+        \item \textbf{Problem.} Find a minimizer of \eqref{eq:primal} with $\Sigma\subset \mathcal{X}$ and $|\Sigma| = M$
+    \end{itemize}
+\end{frame}
+
+% \begin{frame}{Problem statement}
+    
+% \end{frame}
+
+\begin{frame}{Related Work and Applications ?} 
+    
+\end{frame}

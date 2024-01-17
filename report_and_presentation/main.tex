@@ -4,6 +4,7 @@
 
 \setbeamertemplate{section in toc}{\inserttocsectionnumber.~\inserttocsection}
 
+
 \definecolor{mvablue}{rgb}{0.1098, 0.1373, 0.5137}
 \definecolor{mvapurple}{rgb}{0.3373, 0.1529, 0.4510}
 \definecolor{mvared}{rgb}{0.5725, 0.1882, 0.3922}
@@ -38,20 +39,25 @@
 \date{ JAN 19, 2024 } %\\  \vspace{0.3cm} \includegraphics[scale=0.2]{figures/teaser.png}
 \logo{\includegraphics[width=0.6cm]{figures/MVA-logo.png}}
 
+% ---- Template -----
 \setbeamercolor{author in head/foot}{parent=palette primary,bg=}
 \setbeamercolor{title in head/foot}{parent=palette secondary,bg=}
+\setbeamercolor{frame number}{parent=palette tertiary,bg=}
 
 \makeatletter
 \setbeamertemplate{footline}
 {
     \leavevmode%
     \setbox\beamer@tempbox=\hbox{%
-        \begin{beamercolorbox}[wd=.5\paperwidth,ht=2.25ex,dp=1ex,center]{author in head/foot}%
+        \begin{beamercolorbox}[wd=.4\paperwidth,ht=2.25ex,dp=1ex,center]{author in head/foot}%
             \usebeamerfont{author in head/foot}\insertshortauthor\expandafter\beamer@ifempty\expandafter{\beamer@shortinstitute}{}{~~(\insertshortinstitute)}
         \end{beamercolorbox}%
-        \begin{beamercolorbox}[wd=.5\paperwidth,ht=2.25ex,dp=1ex,center]{title in head/foot}%
-            \usebeamerfont{title in head/foot}\insertshorttitle
+        \begin{beamercolorbox}[wd=.4\paperwidth,ht=2.25ex,dp=1ex,center]{title in head/foot}%
+            \usebeamerfont{title in head/foot}\insertshorttitle 
         \end{beamercolorbox}%
+        \begin{beamercolorbox}[wd=.2\paperwidth,ht=2.25ex,dp=1ex,center]{frame number}%
+         \usebeamerfont{frame number}\insertframenumber/\inserttotalframenumber
+      \end{beamercolorbox}%
         }%
         \beamer@tempdim=\ht\beamer@tempbox%
         \advance\beamer@tempdim by 4pt%
@@ -64,8 +70,12 @@
         \box\beamer@tempbox%    
 }%
 \makeatother
-
+% -------------------
 %% Table of content
+\usepackage{content_report/shortcuts}
+\usepackage[style=authoryear]{biblatex}
+\addbibresource{biblio.bib}
+
 \AtBeginSection[]
 {
 \begin{frame}{Overview}
@@ -75,12 +85,17 @@
 \end{frame}
 }
 
+
   
 \newcommand{\myitem}{\item[$\rightarrow$]}
 \newcommand{\mycoolitem}{\item[\checkmark]}
 
 \begin{document}
-\frame[plain]{\titlepage}
+
+% \frame[plain]{\titlepage}
+\begin{frame}[plain]
+  \titlepage
+\end{frame}    
 
 \begin{frame}{Table of contents}
   \tableofcontents
@@ -102,8 +117,11 @@
 
 % Critics
 % Conclusion / perspective
-
 \section{Conclusion and Perspectives}
 \input{content_slides/5ccl.tex}
+
+\begin{frame}[allowframebreaks]{References}
+    \printbibliography
+\end{frame}
 
 \end{document}

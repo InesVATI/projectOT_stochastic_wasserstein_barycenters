@@ -1,6 +1,100 @@
 
+\begin{frame}{Proposed method}
+    \begin{itemize}
+        \item Dual problem
+            \begin{align*}
+                 \red{F\left(\lbrace \phi_j\rbrace_{j=1}^J, \lbrace x_i \rbrace_{i=1}^M \right)} &= \frac{1}{J} \sum_{j=1}^{J} F_{dual}\left(\phi_j, \lbrace x_i \rbrace_{i=1}^M \right) \\
+                F_{dual}\left(\phi_j, \lbrace x_i \rbrace_{i=1}^M\right) &= \int_{\mathcal{X}} \phi_j(x)d\nu(x) + \int_{\mathcal{X}} \overline{\phi}_j(y) d\mu_j(y) \\
+                &= \frac{1}{M}\sum_{i=1}^{M} \phi_j(x_i) + \int_{\mathcal{X}} \overline{\phi}_j(y) d\mu_j(y) \\
+            \end{align*}
+        \item \textbf{Stochastic Gradient Ascent} to optimize the potentials $\lbrace \phi_j \rbrace_{j=1}^J$ (\textit{ascent step})
+        \item \textbf{Fixed point iteration} to optimize the positions $\lbrace x_i \rbrace_{i=1}^M$ (\textit{snap step}) 
+    \end{itemize}
+\end{frame}
+
 \subsection{Ascent step}
+\begin{frame}{Ascent step}
+Gradient $\frac{\partial F}{\partial \phi_j}$ depend on the terms 
+\begin{align*}
+    a^i_j &= \int_{V_{\phi_j}^i} d\mu_j(y) & b_j^i &= \int_{V_{\phi_j}^i} y\, d\mu_j(y) \\
+     &= \mathbb{E}_{y \sim \mu_j}\left[ \mathbf{1}_{y\in V_{\phi_j}^i}\right] & & =\mathbb{E}_{y \sim \mu_j}\left[ y .  \mathbf{1}_{y\in V_{\phi_j^i}}\right] \\
+\end{align*}
+
+where $\mathbf{1}$ is the indicator function and the \textit{power cell} $V_{\phi_j}^i$ of point $x_i$ is
+$$
+V_{\phi}^i = \ens{x\in\mathcal{X}}{d(x, x_i)^2 - \phi_i \leq d(x, x_{i'})^2 - \phi_{i'}, \forall i' }
+$$
+where $d(x, y)^2 = \norm{x-y}_2^2$.
+
+\end{frame}
+
+\begin{frame}{Ascent step}
+    \begin{algorithm}[H]
+        \caption{Ascent step}
+        \begin{algorithmic}[1]
+            \FOR {$j = 1, \dots, J$}
+            \STATE $z^{(0)} \gets 0$
+            \WHILE {$\norm{\frac{\widehat{\partial F}}{\partial \phi_j}}_2^2 > \epsilon_{ascent} $}
+            \STATE Compute $\hat{a}_j^i$ by Monte Carlo approximation
+            \STATE $z^{l+1} \gets \beta z^{(l)} + \widehat{\partial_{\phi_j}F}(\phi_j)$ \COMMENT{\blue{Nesterov acceleration}}
+            \STATE $\phi_j^{(l+1)} \gets \phi_j^{(l)} + \alpha z^{(l+1)}$
+            \ENDWHILE
+            \ENDFOR
+        \end{algorithmic}
+    \end{algorithm}
+    We will use $\epsilon_{ascent} = 10^{-4}$ and set a maximum number of iterations for the while loop to  $T_{max}=1500$ \\ 
+    And fix $\alpha = 0.05$ and $\beta = 0.99$ like in \parencite{claici_stochastic_2018}
+\end{frame}
 
 \subsection{Snap step}
+\begin{frame}{Snap step}
+    The update of the point $\lbrace x_i \rbrace$ is given by 
+$$
+\frac{\partial F}{\partial x_i} = 0 \implies x_i = \frac{\sum_{j=1}^J b_j^i }{\sum_{j=1}^{J}a_j^i}
+$$
 
-\subsection{Theoretical behavior}
+\textit{Intuition :}  
+$$
+\frac{\partial F_{dual}}{\partial \phi_j^i} = \frac{1}{M} - \int_{V_{\phi_j}^i} d\mu_j(y) = 0
+$$
+\begin{itemize}
+    \item[$\rightarrow$] Each cell $V_\phi^i$ contains as much mass as its associated source point $x_i$
+    \item[$\rightarrow$] the fixed point iteration moves each point to the center of its power cell.
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Ascent Snap algorithm}
+
+\begin{algorithm}[H]
+    \caption{Ascent and Snap algorithm for computing Stochastic Wasserstein Barycenters}
+    \begin{algorithmic}[1]
+        \FOR {$t = 1, \dots, T$}
+            \STATE Update $\lbrace \phi_j \rbrace$ with algorithm \COMMENT{Ascent step}
+            \STATE Compute $\hat{b}_j^i$ by Monte Carlo approximation
+            \FOR {$x_i \in \Sigma$}  
+                \STATE $x_i \gets \frac{\sum_{j=1}^J \hat{b}_j^i }{\sum_{j=1}^{J}\hat{a}_j^i}$ \COMMENT{Snap step}
+            \ENDFOR
+        \ENDFOR
+        \RETURN Opitimized barycenter support $\Sigma^* = \lbrace x_i \rbrace_{i=1}^M$
+    \end{algorithmic}
+\end{algorithm}
+
+\end{frame}
+
+\subsection{Theoretical and Empirical Convergence}
+\begin{frame}{Theoretical and Empirical Convergence}
+    \textbf{Assumptions}
+    \begin{itemize}
+        \item[$\blacksquare$]  At least one of the input distribution $\mu_j$ is absolutely continuous with respect to the Lebesgue measure.
+    \item[$\blacksquare$] The domain $\mathcal{X}$ is a compact subset of the Euclidean space $\RR^d$.
+    \end{itemize}
+    \textbf{Garantees}
+    \begin{itemize}
+        \item The global minimizer of \eqref{eq:primal} efficiently approximate the true barycenter as $M\rightarrow \infty$
+        \item No garantee of convergence toward $\nu_M^*$
+        \item The ascent snap algorithm converges to a local minimum
+        \item Algorithm monotonically $\searrow F_{primal}$ \eqref{eq:primal}
+        \item The support of the estimated barycenter is empirically demonstrated to be contained within the support of the true barycenter
+        \item Empirical evidences $\implies$ convergence even in cases where these assumptions are not met
+    \end{itemize}
+\end{frame}

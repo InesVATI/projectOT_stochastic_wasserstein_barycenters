@@ -4,7 +4,7 @@
 The proposed algorithm \cite{claici_stochastic_2018} boils down to two key steps :
 \begin{enumerate}
     \item \label{step1} \textbf{Stochastic Gradient Ascent for Potentials:} With $\lbrace x_i \rbrace$ fixed, a stochastic gradient ascent is employed to optimize the potentials $\lbrace \phi_j^i \rbrace$, leveraging the concavity of F \eqref{eq:obj} in $\phi_j$.
-    \item \textbf{Fixed-Point Iteration for Positions:} With $\lbrace \phi_j^i \rbrace$ fixed, a single fixed point iteration is performed to update the barycenter grid $\lbrace x_i \rbrace$. This update is facilitated by a closed-form expression for the zeroed values of the gradient, i.e., $$\frac{\partial F}{\partial x_i} = 0$$
+    \item \textbf{Fixed-Point Iteration for Positions:} With $\lbrace \phi_j^i \rbrace$ fixed, a single fixed point iteration is performed to update the barycenter grid $\lbrace x_i \rbrace$ using the Reynolds' transport theorem \cite{claici_stochastic_2018}. This update is facilitated by a closed-form expression for the zeroed values of the gradient, i.e., $$\frac{\partial F}{\partial x_i} = 0$$
 \end{enumerate}
 
 \subsection{Stochastic Gradient Ascent for Potentials}
@@ -87,18 +87,17 @@ The algorithm \ref{ascent_snap} summarize the whole procedure.
 Well behavior of the algorithm is ensured for the following assumptions.
 \begin{enumerate}
     \item \label{H1} At least one of the input distribution $\mu_j$ is absolutely continuous with respect to the Lebesgue measure.
-    \item The domain $\mathcal{X}$ is a compact subset of $\RR^d$.
+    \item The domain $\mathcal{X}$ is a compact subset of the Euclidean space $\RR^d$.
 \end{enumerate}
-
-Under these conditions, the authors prove that the Algorithm \ref{ascent_snap} converges to a local minimum of the functional $F_{primal}$ for a step size equal to the inverse of the Lipschitz constant of the gradient of $F_{primal}$ given in \cite{claici_stochastic_2018}. $F_{primal}$ refers to the objective funciton of the primal problem defined in \eqref{eq:primal}. 
-
 The first assumption ensures the existence of a unique Wasserstein barycenter \cite{claici_stochastic_2018}. 
+
+Under these conditions, the authors prove that the Algorithm \ref{ascent_snap} converges to a local minimum of the functional $F_{primal}$ \eqref{eq:primal} for a step size equal to the inverse of the Lipschitz constant of the gradient of $F_{primal}$ given in \cite{claici_stochastic_2018}. 
 
 However, empirical evidence presented by the authors indicates that their method converges even in cases where these assumptions are not met. \\ 
 
 Moreover, Let $\nu_M^*$ be a uniform measure supported on $M$ points that minimizes $\frac{1}{J}\sum_{j=1}^{J} W_2(\nu_M^*, \mu_j)$. Remind that $\nu$ denotes the true barycenter of the measures ${\mu_j}$. Since the Wasserstein distance metrizes the convergence in law, they have that $\nu_M^* \rightarrow \nu$.
 
-While the authors do not provide guarantees that the algorithm converges toward $\nu_M^*$, they show that the global minimizer of the objective efficiently approximate the true barycenter as $M \rightarrow \infty$. \\ 
+While the authors do not provide guarantees that the algorithm converges toward $\nu_M^*$, they show that the global minimizer of \eqref{eq:primal} efficiently approximate the true barycenter as $M \rightarrow \infty$. \\ 
 
 Furthermore, they theoretically establish that their algorithm monotonically decreases the objective of the primal problem \eqref{eq:primal}.
 

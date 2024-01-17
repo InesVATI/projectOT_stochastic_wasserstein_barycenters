@@ -22,7 +22,7 @@ Current state-of-the-art techniques typically define the barycenter on a fixed, 
 
 \textbf{Problem statement.} We consider of collection of $J$ distributions $\lbrace \mu_j \rbrace_{j=1}^J$, either discrete or continuous, defined on a common domain $\mathcal{X} \subset \mathbb{R}^d$. The barycenter $\nu$ of these distributions is defined as the solution of the following optimization problem 
 \begin{equation}\label{eq:primal}
-      \umin{\nu}\frac{1}{J}\sum_{j=1}^{J} W_2^2(\nu, \mu_j)
+      \umin{\nu} F_{primal} = \frac{1}{J}\sum_{j=1}^{J} W_2^2(\nu, \mu_j)
 \end{equation}
 The squared 2-Wasserstein distance between two probability measures $\nu$ and $\mu$ is defined as
 \begin{equation}\label{eq:W2}

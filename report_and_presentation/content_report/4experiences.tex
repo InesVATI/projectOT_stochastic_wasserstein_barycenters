@@ -2,18 +2,18 @@
 
 \subsection{Analysis of the ascent step convergence}
 \label{sec:ascent_convergence}
- During the iterative procedure, we plot in Figure \ref{fig:ascent_criteria} the evolution of the norm of the gradient of $F$, for $j \in \intinter{1}{J}$. The stochastic ascent gradient seems to converge as the norm of the gradient reaches a plateau. The convergence is faster for the 2-D discrete distributions than for the 1-D continuous distributions. 
+ During the iterative procedure, we plot in Figure \ref{fig:ascent_criteria} the evolution of the norm of the gradient of $F$, for $j \in \intinter{1}{J}$. The stochastic ascent gradient seems to converge as the norm of the gradient reaches a plateau. The convergence is faster for the 2D discrete distributions than for the 1D continuous distributions. 
 
  \begin{figure}
     \begin{subfigure}{.5\textwidth}
         \centering
         \includegraphics[width=\textwidth]{figures/ascent_criteria_msamples16000_iter0_1D_2skewnorm.png}
-        \caption{Two 1-D continuous distributions}
+        \caption{Two 1D continuous distributions}
     \end{subfigure}
     \begin{subfigure}{.5\textwidth}
         \centering
         \includegraphics[width=\textwidth]{figures/ascent_criteria_msamples16000_iter0_2D_discrete.png}
-        \caption{Two 2-D discrete distributions }
+        \caption{Two 2D discrete distributions }
     \end{subfigure}
     \caption{Evolution of $\norm{ \frac{\partial F}{\partial \phi_j} }$ during the ascent step (Algorithm \ref{ascent}) for each experiment. In the x-axis, is the number of interations of the while loop.}
     \label{fig:ascent_criteria}
@@ -59,7 +59,7 @@ Using the Remark $7.1$ \cite{peyre_computational_2020}, the McCann's interpolati
     \mu_t &= (t\mathcal{C}^{-1}_{\mu_2}\ o\ \mathcal{C}_{\mu_1} + (1-t)Id)_\#\mu_1 \label{eq:mccann}
 \end{align}
 
-Figure \ref{fig:mccann_1D_2skew} shows the displacement interpolation between 1-D measures, using the cumulative distribution function as detailed in \eqref{eq:mccann}.
+Figure \ref{fig:mccann_1D_2skew} shows the displacement interpolation between 1D measures, using the cumulative distribution function as detailed in \eqref{eq:mccann}.
 
 \begin{figure}
     \centering
@@ -72,7 +72,7 @@ To obtain the interpolant, we generate $K$ samples $(X_k)$ independent and ident
 $$Y_k = tT X_k + (1-t)X_k, \qquad \forall k \in\intinter{1}{K}$$ 
 where $T$ is given in \eqref{eq:monge_map}. We have that $ (Y_k)$ is iid according to $\mu_t$.
 
-To compare with the algorithm \ref{ascent_snap}, we use $t=0.5$. The only hyperparameter to fix is the number of samples $K$ to generate. We choose $K=2000$. The inconvenient is that we can apply this computation only in the 1-D case and for two input measures.
+To compare with the algorithm \ref{ascent_snap}, we use $t=0.5$. The only hyperparameter to fix is the number of samples $K$ to generate. We choose $K=2000$. The inconvenient is that we can apply this computation only in the 1D case and for two input measures.
 
 \subsubsection{Use of the Sinkhorn algorithm to compute the barycenter} \label{sec:iterative_bregman}
 
@@ -91,12 +91,12 @@ Figure \ref{fig:sinkhorn_1D_2skew} depicts the barycenter obtained for various $
     \label{fig:sinkhorn_1D_2skew}
 \end{figure}
 
-In our experiments, we use $500$ iterations and we fix $\epsilon = 0.01$ for the $1-D$ case and $\epsilon = 0.04^2$ for the $2-D$ case. 
+In our experiments, we use $500$ iterations and we fix $\epsilon = 0.01$ for the $1D$ case and $\epsilon = 0.04^2$ for the $2D$ case. 
 
 \begin{figure}
     \centering
     \includegraphics[width=\textwidth]{figures/sinkhorn_barycenter_2D_discrete.png}
-    \caption{Results of the Sinkhorn algorithm for the 2-D discrete case. The regularization is $\epsilon = 0.04^2$.}
+    \caption{Results of the Sinkhorn algorithm for the 2D discrete case. The regularization is $\epsilon = 0.04^2$.}
     \label{fig:sinkhorn_2D_discrete}
 \end{figure}
 
@@ -110,13 +110,13 @@ The figures \ref{pot1}, \ref{pot2} and \ref{pot3} in the Appendices shows the in
 \begin{figure}
     \centering
     \includegraphics[scale=.4]{figures/ot_barycenter_1D_2skewnorm.png}
-    \caption{Results of the POT toolbox for the 1-D continuous case. }
+    \caption{Results of the POT toolbox for the 1D continuous case. }
     \label{fig:pot_1D_2skewnorm}
 \end{figure}
 
 \subsubsection{Experience 1 : 1D skewed normal distributions}
 
-In this experience, we compute the barycenter between two 1-D skewed normal distributions whose skew parameters are $s_1=8$ and $s_2=4$, means are $m_1=3$ and $m=8$ and standart deviations are $\sigma_1=0.8$ and $\sigma_2=1$, respectively.  
+In this experience, we compute the barycenter between two 1D skewed normal distributions whose skew parameters are $s_1=8$ and $s_2=4$, means are $m_1=3$ and $m=8$ and standart deviations are $\sigma_1=0.8$ and $\sigma_2=1$, respectively.  
 
 The figures \ref{fig:mccann_1D_2skew}, \ref{fig:pot_1D_2skewnorm}, \ref{fig:ascent_snap_1D_2skewnorm} and \ref{fig:sinkhorn_1D_2skew} depict the results for each methods. The support of the barycenter computed by the proposed method is larger than the support of the McCann's interpolation and the one obtained with the Sinkhorn algorithm. 
 
@@ -125,7 +125,7 @@ Moreover, uniform weights does not seem to be a good way to approximate barycent
 \begin{figure}
     \centering
     \includegraphics[width=\textwidth]{figures/ascent_snap_1D_2skewnorm.png}
-    \caption{Results of the ascent/snap Algorithm \ref{ascent_snap} for the 1-D continuous case. We use $16000$ samples from the input distributions, and $1$ iterations. See Section \ref{sec:ascent_convergence} for the hyperparameters.}
+    \caption{Results of the ascent/snap Algorithm \ref{ascent_snap} for the 1D continuous case. We use $16000$ samples from the input distributions, and $1$ iterations. See Section \ref{sec:ascent_convergence} for the hyperparameters.}
     \label{fig:ascent_snap_1D_2skewnorm}
 \end{figure}
 
@@ -135,7 +135,7 @@ Regarding the computation time, the ascent/snap algorithm is by far the slowest 
 
 \subsubsection{Experience 2 : 2D uniform distributions}
 
-In the second experiment, we generate two 2-D uniform distributions. We generate $160$ points from each distribution with a different geometrical structures. The first distribution is a square and the points from the second distribution are generated from a multivariate normal distribution with mean $(0, 0)$ and covariance matrix
+In the second experiment, we generate two 2D uniform distributions. We generate $160$ points from each distribution with a different geometrical structures. The first distribution is a square and the points from the second distribution are generated from a multivariate normal distribution with mean $(0, 0)$ and covariance matrix
 $
 \Sigma = \left(\begin{array}{cc}
 0.6 & 0.5 \\
@@ -146,13 +146,13 @@ $.
 \begin{figure}
     \centering
     \includegraphics[width=\textwidth]{figures/ascent_snap_2D_discrete_barycenter.png}
-    \caption{Results of the ascent/snap Algorithm \ref{ascent_snap} for the 2-D discrete case. We use $16000$ samples from the input distributions, and $1$ iteration.}
+    \caption{Results of the ascent/snap Algorithm \ref{ascent_snap} for the 2D discrete case. We use $16000$ samples from the input distributions, and $1$ iteration.}
     \label{fig:ascent_snap_2D_discrete}
 \end{figure}
 
 The barycenter computed by the proposed method showed in Figure \ref{fig:ascent_snap_2D_discrete} is slightly different from the one obtained with the free support Sinkhorn algorithm from POT \S\ref{sec:pot}. Our algorithm gives point inside the warped square whereas the POT barycenter only warped the segments. However, their shapes are similar. 
 
-As illustrated in The Figure \ref{fig:sinkhorn_2D_discrete}, we had to construct an image to apply the Sinkhorn algorithm to 2-D distributions corresponding to this scheme. However, this algorithm do not yield qualitative results as the Gibbs kernel tend to smooth the image.
+As illustrated in The Figure \ref{fig:sinkhorn_2D_discrete}, we had to construct an image to apply the Sinkhorn algorithm to 2D distributions corresponding to this scheme. However, this algorithm do not yield qualitative results as the Gibbs kernel tend to smooth the image.
 
 \begin{table}
     \begin{center}
