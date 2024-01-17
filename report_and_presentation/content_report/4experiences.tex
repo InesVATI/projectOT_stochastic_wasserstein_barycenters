@@ -150,20 +150,20 @@ $.
     \label{fig:ascent_snap_2D_discrete}
 \end{figure}
 
-The barycenter computed by the proposed method showed in Figure \ref{fig:ascent_snap_2D_discrete} is slightly different from the one obtained with the free support Sinkhorn algorithm from POT \S\ref{sec:pot}. Our algorithm gives point inside the warped square whereas the POT barycenter only warped the segments. However, their shapes are similar. 
+We compare the barycenter of the proposed method showed in Figure \ref{fig:ascent_snap_2D_discrete} with the barycenter plotted Figure \ref{pot2} with a regularization of $\epsilon=0.005$. The barycenter computed by the proposed method is slightly different from the one obtained with the free support Sinkhorn algorithm from POT \S\ref{sec:pot}. Our algorithm gives point inside the warped square whereas the POT barycenter only warped the segments. However, their shapes are similar. 
 
 As illustrated in The Figure \ref{fig:sinkhorn_2D_discrete}, we had to construct an image to apply the Sinkhorn algorithm to 2D distributions corresponding to this scheme. However, this algorithm do not yield qualitative results as the Gibbs kernel tend to smooth the image.
 
 \begin{table}
     \begin{center}
         \begin{tabularx}{\textwidth}{>{\raggedright}m{2cm} c m{2cm} X X}
-                Experiment & McCann & Iterative Bregman & POT free support & Ascent Snap \\
+                Experiment & McCann & Sinkhorn & Free support Sinkhorn & Ascent Snap \\
                 \hline\hline
                 1D skewnorm & $0.02 \pm 0.01$ & $0.22 \pm 0.02$ & $0.74 \pm 0.28$ & $7814.27 \pm 0.37$ \\
                 2D discrete & - & $2.18 \pm 0.34$ & $0.38 \pm 0.30$ & $16351.66 \pm 0.23$ \\
         \end{tabularx}
     \end{center}
-    \caption{Computation time (in seconds) for the different methods}
+    \caption{Computation time (in seconds) for the different methods. The experiences were repeated $3$ times for the Ascent snap algorithm and $10$ times for the others.}
     \label{table:time_table}
 \end{table}
 

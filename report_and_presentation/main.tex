@@ -49,13 +49,13 @@
 {
     \leavevmode%
     \setbox\beamer@tempbox=\hbox{%
-        \begin{beamercolorbox}[wd=.4\paperwidth,ht=2.25ex,dp=1ex,center]{author in head/foot}%
+        \begin{beamercolorbox}[wd=.3\paperwidth,ht=2.25ex,dp=1ex,center]{author in head/foot}%
             \usebeamerfont{author in head/foot}\insertshortauthor\expandafter\beamer@ifempty\expandafter{\beamer@shortinstitute}{}{~~(\insertshortinstitute)}
         \end{beamercolorbox}%
         \begin{beamercolorbox}[wd=.4\paperwidth,ht=2.25ex,dp=1ex,center]{title in head/foot}%
             \usebeamerfont{title in head/foot}\insertshorttitle 
         \end{beamercolorbox}%
-        \begin{beamercolorbox}[wd=.2\paperwidth,ht=2.25ex,dp=1ex,center]{frame number}%
+        \begin{beamercolorbox}[wd=.3\paperwidth,ht=2.25ex,dp=1ex,center]{frame number}%
          \usebeamerfont{frame number}\insertframenumber/\inserttotalframenumber
       \end{beamercolorbox}%
         }%
@@ -120,7 +120,7 @@
 \section{Conclusion and Perspectives}
 \input{content_slides/5ccl.tex}
 
-\begin{frame}[allowframebreaks]{References}
+\begin{frame}{References}
     \printbibliography
 \end{frame}
 

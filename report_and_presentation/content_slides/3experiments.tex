@@ -1,8 +1,33 @@
+\begin{frame}{Experiments and Numerical Analysis}
+    \begin{columns}
+        \begin{column}{.6\textwidth}
+            \centering
+            \textbf{Applications to both 1D and 2D cases} \\
+            \includegraphics[height=.35\textheight]{figures/1D_inputs.png} \\
+            Continuous skewed normal distributions
+            \includegraphics[height=.35\textheight]{figures/2D_inputs.png} \\
+            Discrete uniform distributions
+        \end{column}
+        \begin{column}{.4\textwidth}
+        \textbf{Comparison to existing methods} 
+        \begin{itemize}
+            \item McCann's interpolation
+            \item Iterative Sinkhorn algorithm
+            \item Free support Sinkhorn algorithm \parencite{cuturi_fast_2014} from POT toolbox \parencite{flamary_pot_2021}
+        \end{itemize}
+        \end{column}
+    \end{columns}
+\end{frame}
+
 \begin{frame}{Experiment 1}
+    \centering
+    \includegraphics[width=\textwidth]{figures/experiment1_results.png}
 \end{frame}
 
 \begin{frame}{Experiment 2}
-    
+    \centering
+    \includegraphics[width=\textwidth]{figures/experiment2_results.png}
+    Sinkhorn Algorithm (left), Proposed method (middle), Free support Sinkhorn using POT (right)
 \end{frame}
 
 \begin{frame}{Computation time}
@@ -15,7 +40,7 @@
                     2D discrete & - & $2.18 \pm 0.34$ & $0.38 \pm 0.30$ & $16351.66 \pm 0.23$ \\
             \end{tabularx}
         \end{center}
-        \caption{Computation time (in seconds) for the different methods}
+        \caption{Computation time (in seconds) for the different methods. The experiments were conducted three times for the Ascent snap algorithm and ten times for the others.}
     \end{table}
 \end{frame}
 
@@ -51,7 +76,7 @@
                         2D discrete & $11938.70 \pm 0.34$ & $9.81 \pm 0.34$ \\
                 \end{tabular}
         \end{center}
-        \caption{Computation time (in seconds) for each step of the Algorithm \ref{ascent_snap}. The experiences are repeated $3$ times.}
+        \caption{Computation time (in seconds) for each step of the proposed algorithm. The experiences were repeated $3$ times.}
         \label{table:time_algo_table}
     \end{table}
 \end{frame}
